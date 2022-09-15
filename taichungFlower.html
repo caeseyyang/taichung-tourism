@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>台中市賞花景點</title>
+    <link rel="stylesheet" href="./node_modules/bootstrap/dist/css/bootstrap.css">
+    <link rel="stylesheet" href="./node_modules/bootstrap/dist/js/bootstrap.js">
+    <script src="https://unpkg.com/vue@3"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.27.2/axios.min.js"></script>
+</head>
+<style>
+    body{
+        background-image: url(./img/hd-wallpaper-g7a54b4ca7_1920.jpg);
+        background-size: cover;
+    }
+</style>
+<body>
+
+    <div id="app">
+        <div class="container">
+            <nav class="navbar navbar-light border border-secondary mt-2">
+                <div class="container-fluid ">
+                    <span class="navbar-brand m-4"><h1>台中市賞花景點</h1></span>
+                    <input type="search" v-model="search" placeholder="搜尋地點">
+                </div>              
+            </nav>
+            <div class="row p-3">
+                <div class="col-6 overflow-auto p-3 border" style="height: 400px;">地點
+                    <div v-for="(item,index) in filterLocations" :key="index+item['地點']" class="form-check m-3" >
+                        <input class="form-check-input" type="radio" name="flexRadioDefault" :id="index+item['地點']" >
+                        <label @click="isSelected(item)" class="form-check-label" :for="index+item['地點']">
+                            {{ item['地點'] }}
+                        </label>
+                    </div>
+                </div>
+                <div class="col-6 ">
+                    <div v-if="this.selected" class="card border-secondary fs-3">
+                        <div class="card-header">行政區:{{selected["行政區"]}}</div>
+                        <div class="card-body text-secondary ">
+                            <h2 class="card-title">地點:{{selected["地點"]}}</h2>
+                            <p class="card-text">花種:{{selected["花種"]}}</p>
+                            <p class="card-text">觀賞時期:{{selected["觀賞時期"]}}</p>
+                            <p class="card-text">地址:{{selected["地址"]}}</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <script>
+        var dataUrl = "https://datacenter.taichung.gov.tw/swagger/OpenData/f116d1db-56f7-4984-bad8-c82e383765c0"
+        const { createApp } = Vue
+
+        createApp({
+            data() {
+                return {
+                    // 全部的景點
+                    locations: [],
+                    // 被選取的地點
+                    selected: '',
+                    // 搜尋
+                    search:'',
+                }
+            },
+
+            created() {
+                // 取得api
+                axios.get(dataUrl)
+                    .then((res) => {
+                        res.data.forEach(element => {
+                            this.locations.push(element)
+                        });
+                    })
+                    .catch((err) => {
+                        console.log(err);
+                    });
+
+            },
+            methods: {
+                // 被點取到的顯示在畫面上
+                isSelected(item) {
+                    this.selected = item;
+                }
+            },
+            computed:{
+                // 搜尋
+                filterLocations(){
+                    return this.locations.filter(item =>{
+                        return item["地點"].match(this.search);
+                    })
+                }
+            }
+        }).mount('#app')
+    </script>
+</body>
+
+</html>
