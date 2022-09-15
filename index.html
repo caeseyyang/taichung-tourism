@@ -6,38 +6,47 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>台中市賞花景點</title>
-    <link rel="stylesheet" href="node_modules/bootstrap/dist/css/bootstrap.min.css">
-    <link rel="stylesheet" href="node_modules/bootstrap/dist/js/bootstrap.min.js">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"
+        integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+        crossorigin="anonymous"></script>
     <script src="https://unpkg.com/vue@3"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.27.2/axios.min.js"></script>
 </head>
 <style>
-    body{
+    body {
         background-image: url(./img/hd-wallpaper-g7a54b4ca7_1920.jpg);
         background-repeat: no-repeat;
     }
 </style>
+
 <body>
 
     <div id="app">
         <div class="container mt-5">
             <nav class="navbar navbar-light border border-secondary mt-2">
                 <div class="container-fluid ">
-                    <span class="navbar-brand m-4"><h1>台中市賞花景點</h1></span>
+                    <span class="navbar-brand m-4">
+                        <h1>台中市賞花景點</h1>
+                    </span>
                     <input type="search" v-model="search" placeholder="搜尋地點">
-                </div>              
+                </div>
             </nav>
             <div class="row p-3">
                 <div class="col-6 overflow-auto p-3 border" style="height:50vh">地點
-                    <div v-for="(item,index) in filterLocations" :key="index+item['地點']" class="form-check m-3" >
-                        <input class="form-check-input" type="radio" name="flexRadioDefault" :id="index+item['地點']" >
+                    <div v-for="(item,index) in filterLocations" :key="index+item['地點']" class="form-check m-3">
+                        <input class="form-check-input" type="radio" name="flexRadioDefault" :id="index+item['地點']">
                         <label @click="isSelected(item)" class="form-check-label" :for="index+item['地點']">
                             {{ item['地點'] }}
                         </label>
                     </div>
                 </div>
-                <div class="col-6" >
-                    <div v-if="this.selected" class="card border-secondary fs-3" >
+                <div class="col-6">
+                    <div v-if="this.selected" class="card border-secondary fs-3">
                         <div class="card-header">行政區:{{selected["行政區"]}}</div>
                         <div class="card-body text-secondary ">
                             <h2 class="card-title">地點:{{selected["地點"]}}</h2>
@@ -64,7 +73,7 @@
                     // 被選取的地點
                     selected: '',
                     // 搜尋
-                    search:'',
+                    search: '',
                 }
             },
 
@@ -87,10 +96,10 @@
                     this.selected = item;
                 }
             },
-            computed:{
+            computed: {
                 // 搜尋
-                filterLocations(){
-                    return this.locations.filter(item =>{
+                filterLocations() {
+                    return this.locations.filter(item => {
                         return item["地點"].match(this.search);
                     })
                 }
