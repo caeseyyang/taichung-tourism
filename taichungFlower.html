@@ -14,13 +14,13 @@
 <style>
     body{
         background-image: url(./img/hd-wallpaper-g7a54b4ca7_1920.jpg);
-        background-size: cover;
+        background-repeat: no-repeat;
     }
 </style>
 <body>
 
     <div id="app">
-        <div class="container">
+        <div class="container mt-5">
             <nav class="navbar navbar-light border border-secondary mt-2">
                 <div class="container-fluid ">
                     <span class="navbar-brand m-4"><h1>台中市賞花景點</h1></span>
@@ -28,7 +28,7 @@
                 </div>              
             </nav>
             <div class="row p-3">
-                <div class="col-6 overflow-auto p-3 border" style="height: 400px;">地點
+                <div class="col-6 overflow-auto p-3 border" style="height:50vh">地點
                     <div v-for="(item,index) in filterLocations" :key="index+item['地點']" class="form-check m-3" >
                         <input class="form-check-input" type="radio" name="flexRadioDefault" :id="index+item['地點']" >
                         <label @click="isSelected(item)" class="form-check-label" :for="index+item['地點']">
@@ -36,8 +36,8 @@
                         </label>
                     </div>
                 </div>
-                <div class="col-6 ">
-                    <div v-if="this.selected" class="card border-secondary fs-3">
+                <div class="col-6" >
+                    <div v-if="this.selected" class="card border-secondary fs-3" >
                         <div class="card-header">行政區:{{selected["行政區"]}}</div>
                         <div class="card-body text-secondary ">
                             <h2 class="card-title">地點:{{selected["地點"]}}</h2>
